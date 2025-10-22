@@ -1,13 +1,17 @@
 "use client"
 
-import { useMutation, useQuery } from "convex/react"
+import { Preloaded, useMutation, usePreloadedQuery, useQuery } from "convex/react"
 import { api } from "../../convex/_generated/api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 
-export function TaskList() {
-    const tasks = useQuery(api.tasks.getTasks);
+interface Props {
+    getTasks: Preloaded<typeof api.tasks.getTasks>
+}
+
+export function TaskList(props: Props) {
+    const tasks = usePreloadedQuery(props.getTasks);
     const updateTask = useMutation(api.tasks.completeTask);
 
     const onChangeCompleteTask = async (id: any, complete: boolean) => {
